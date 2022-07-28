@@ -153,10 +153,11 @@ LspProgress.update_progress = function(self)
 	for _, client in pairs(self.clients) do
 		for _, display_component in pairs(self.options.display_components) do
 			if display_component == 'lsp_client_name' then
+        local escaped = client.name:gsub('%%','%%%%')
 				if options.colors.use then
-					table.insert(result, highlight.component_format_highlight(self.highlights.lsp_client_name) .. options.separators.lsp_client_name.pre .. client.name .. options.separators.lsp_client_name.post)
+					table.insert(result, highlight.component_format_highlight(self.highlights.lsp_client_name) .. options.separators.lsp_client_name.pre .. escaped .. options.separators.lsp_client_name.post)
 				else
-					table.insert(result, options.separators.lsp_client_name.pre .. client.name .. options.separators.lsp_client_name.post)
+					table.insert(result, options.separators.lsp_client_name.pre .. escaped .. options.separators.lsp_client_name.post)
 				end
 			end
 			if display_component == 'spinner' then
@@ -190,10 +191,11 @@ LspProgress.update_progress_components = function(self, result, display_componen
 			local d = {}
 			for _, i in pairs(display_components) do
 				if progress[i] and progress[i] ~= '' then
+          local escaped = tostring(progress[i]):gsub('%%','%%%%')
 					if options.colors.use then
-						table.insert(d, highlight.component_format_highlight(self.highlights[i]) .. options.separators[i].pre .. progress[i] .. options.separators[i].post)
+						table.insert(d, highlight.component_format_highlight(self.highlights[i]) .. options.separators[i].pre .. escaped .. options.separators[i].post)
 					else
-						table.insert(d, options.separators[i].pre .. progress[i] .. options.separators[i].post)
+						table.insert(d, options.separators[i].pre .. escaped .. options.separators[i].post)
 					end
 				end
 			end
